@@ -195,6 +195,29 @@ class HelpersTraitTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+    * testSetHelper
+    *
+    * @return void
+    *
+    * @access public
+    */
+    public function testSetHelper()
+    {
+        $this->trait->setHelper(
+            'foo',
+            function () {
+                return 'foo helper';
+            }
+        );
+
+        $this->assertSame(
+            $this->trait->foo(),
+            'foo helper'
+        );
+
+    }
+
 }
 
 

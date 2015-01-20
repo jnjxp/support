@@ -117,6 +117,42 @@ trait HelpersTrait
     }
 
     /**
+     * Magic call to make the helper objects available as methods.
+     *
+     * @param string $name A helper name.
+     *
+     * @param array  $args Arguments to pass to the helper.
+     *
+     * @return mixed
+     *
+     */
+    public function callHelper($name, $args)
+    {
+        $instance = $this->getHelper($name);
+
+        switch (count($args)) {
+        case 0:
+            return $instance();
+            break;
+        case 1:
+            return $instance($args[0]);
+            break;
+        case 2:
+            return $instance($args[0], $args[1]);
+            break;
+        case 3:
+            return $instance($args[0], $args[1], $args[2]);
+            break;
+        case 4:
+            return $instance($args[0], $args[1], $args[2], $args[3]);
+            break;
+        default:
+            return call_user_func_array($instance, $args);
+            break;
+        }
+    }
+
+    /**
      * Sets a helper object factory into the map.
      *
      * @param string   $name     The helper name.
@@ -129,6 +165,27 @@ trait HelpersTrait
     {
         $this->helperMap[$name] = $callable;
         unset($this->helpers[$name]);
+        return $this;
+    }
+
+    /**
+    * sets a helper directly w/o factory
+    *
+    * @param string   $name     Name of the helper
+    * @param callable $callable Callable to use as the helper
+    *
+    * @return mixed
+    *
+    * @access public
+    */
+    public function setHelper($name, $callable)
+    {
+        $this->setHelperFactory(
+            $name,
+            true
+        );
+
+        $this->helpers[$name] = $callable;
         return $this;
     }
 

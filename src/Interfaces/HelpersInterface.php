@@ -56,7 +56,7 @@ interface HelpersInterface
     public function setHelperMap(array $map);
 
     /**
-     * Magic call to make the helper objects available as methods.
+     * Call a helper object. Useful with __call
      *
      * @param string $name A helper name.
      *
@@ -65,7 +65,7 @@ interface HelpersInterface
      * @return mixed
      *
      */
-    public function __call($name, $args);
+    public function callHelper($name, $args);
 
     /**
      * Sets a helper object factory into the map.
@@ -77,6 +77,18 @@ interface HelpersInterface
      *
      */
     public function setHelperFactory($name, $callable);
+
+    /**
+    * sets a helper directly w/o factory
+    *
+    * @param string   $name     Name of the helper
+    * @param callable $callable Callable to use as the helper
+    *
+    * @return mixed
+    *
+    * @access public
+    */
+    public function setHelper($name, $callable);
 
     /**
      * Does a named helper exist in the locator?
